@@ -3,44 +3,33 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"github.com/katesyberspace/bookstore/internal/app/books"
 	"github.com/katesyberspace/bookstore/internal/app/bookstore"
-	"github.com/katesyberspace/bookstore/internal/app/users"
 	"os"
 	"strings"
 )
 
 func main(){
-	fmt.Println("Welcome to Assembly Bookstore")
-	fmt.Println("Type exit to leave the store at any time")
+	fmt.Println("*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*")
+	fmt.Println("*                  Welcome to Assembly Bookstore                *")
+	fmt.Println("*                                                               *")
+	fmt.Println("*             Type exit to leave the store at any time          *")
+	fmt.Println("*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*")
+	fmt.Println("")
+	fmt.Println("")
 
 	reader := bufio.NewReader(os.Stdin)
 
-	crazyTown := books.Book{
-		Title: "CrazyTown",
-		Author: "Job Bleuthe",
-		SalePrice: 10,
-	}
-
-	Bob := users.User{
-		Name: "Bob",
-		BooksForSale: []books.Book{crazyTown},
-		DigitalWallet: 100,
-	}
-
-	Kelly := users.User{
-		Name: "Kelly",
-		DigitalWallet: 100,
-	}
-
-
-
-	bookstore := bookstore.Bookstore{
-		Users: []*users.User{&Bob, &Kelly},
-	}
+	bookstore := bookstore.Bookstore{}
+	bookstore.SeedBookStoreData()
 
 	booksAvailableForPurchase := bookstore.ListBooksForSale()
-	fmt.Printf("Books available for purchase:\n%+v", booksAvailableForPurchase)
+	fmt.Printf("Books available for purchase:\n%+v\n", booksAvailableForPurchase)
+	usersWalletAccounts := bookstore.ListDigitalWallets()
+	fmt.Println("Users digital wallets:")
+	for user, balance := range usersWalletAccounts {
+		fmt.Printf("User: %s Balance: %d\n", user, balance)
+
+	}
 
 	stayInBookStore := true
 	for stayInBookStore  {
