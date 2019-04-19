@@ -1,6 +1,7 @@
 package bookstore
 
 import (
+	"fmt"
 	"github.com/katesyberspace/bookstore/internal/app/books"
 	"github.com/katesyberspace/bookstore/internal/app/users"
 )
@@ -46,5 +47,14 @@ func(b *Bookstore) ListDigitalWallets() (digitalWallets map[string]int) {
 		digitalWallets[b.Users[i].Name] = b.Users[i].DigitalWallet
 	}
 
+	for user, balance := range digitalWallets {
+		fmt.Sprintf("User: %s Balance: %d\n", user, balance)
+	}
 	return
+}
+
+func(b *Bookstore) CreateTransaction() {
+
+
+
 }

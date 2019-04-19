@@ -28,8 +28,9 @@ func main(){
 	fmt.Println("Users digital wallets:")
 	for user, balance := range usersWalletAccounts {
 		fmt.Printf("User: %s Balance: %d\n", user, balance)
-
 	}
+
+
 
 	stayInBookStore := true
 	for stayInBookStore  {
