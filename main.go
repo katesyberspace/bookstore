@@ -4,7 +4,9 @@ import (
 	"bufio"
 	"fmt"
 	"github.com/katesyberspace/bookstore/internal/app/bookstore"
+	"log"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -18,6 +20,8 @@ func printWelcomeScreen() {
 	fmt.Println("\n")
 	fmt.Println("Press 1 to see books for sale")
 	fmt.Println("Press 2 to see users' digital wallet balances")
+	fmt.Println("Press 3 to sell a book")
+	fmt.Println("Press 4 to buy a book")
 
 }
 
@@ -42,6 +46,40 @@ func printUsersDigitalWallets(b *bookstore.Bookstore) {
 	}
 }
 
+func getUserInputFromReader(reader *bufio.Reader, prompt string) (userInput string){
+	fmt.Println(">"+prompt)
+	fmt.Print("->")
+	text, _ := reader.ReadString('\n')
+	text = strings.Replace(text, "\n", "", -1)
+	return text
+}
+
+
+func sellBook(b *bookstore.Bookstore, reader *bufio.Reader) {
+	var sellerName, bookTitle string
+	var salePrice int
+
+	fmt.Println("*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*")
+	fmt.Println("*                         Sell A Book                           *")
+	fmt.Println("*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*")
+	sellerName = getUserInputFromReader(reader, "Enter seller's name")
+	fmt.Printf("sellerName: %s", sellerName)
+
+	bookTitle = getUserInputFromReader(reader, "Enter book title")
+	fmt.Printf("booktitle: %s\n", bookTitle)
+
+	salePriceString := getUserInputFromReader(reader, "Enter sale price")
+	salePrice, _ = strconv.Atoi(salePriceString)
+
+
+	book, _ := b.SellBook(bookTitle, sellerName, salePrice)
+	log.Printf(book.Title)
+}
+
+func buyBook(b *bookstore.Bookstore) {
+	b.BuyBook("Kelly", "Coding For Cats", 20)
+}
+
 func main(){
 	bookstore := bookstore.Bookstore{}
 	bookstore.SeedBookStoreData()
@@ -59,6 +97,12 @@ func main(){
 			printBooksForSale(&bookstore)
 		} else if text == "2" {
 			printUsersDigitalWallets(&bookstore)
+		} else if text == "3" {
+			sellBook(&bookstore, reader)
+			printBooksForSale(&bookstore)
+		} else if text == "4" {
+			buyBook(&bookstore)
+			printBooksForSale(&bookstore)
 		} else {
 			fmt.Print("please enter a valid option")
 		}
